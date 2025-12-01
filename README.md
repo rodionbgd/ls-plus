@@ -1,6 +1,18 @@
 # ls-plus
 
+<div align="center">
+
+![npm version](https://img.shields.io/npm/v/ls-plus?style=flat-square)
+![npm downloads](https://img.shields.io/npm/dm/ls-plus?style=flat-square)
+![bundle size](https://img.shields.io/bundlephobia/minzip/ls-plus?style=flat-square)
+![license](https://img.shields.io/npm/l/ls-plus?style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue?style=flat-square)
+
 A lightweight, zero-dependency localStorage wrapper with TTL, namespaces, and SSR support.
+
+[Installation](#installation) • [Documentation](#api-reference) • [Examples](#examples) • [GitHub](https://github.com/rodionbgd/ls-plus)
+
+</div>
 
 ## Features
 
