@@ -1,0 +1,68 @@
+{
+  "name": "ls-plus",
+  "version": "0.0.1",
+  "description": "A lightweight, zero-dependency localStorage wrapper with TTL, namespaces, and SSR support",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "size-limit": "size-limit",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src"
+  },
+  "keywords": [
+    "localStorage",
+    "storage",
+    "ttl",
+    "namespace",
+    "ssr",
+    "typescript",
+    "zero-deps"
+  ],
+  "author": "https://github.com/rodionbgd",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rodionbgd/ls-plus.git"
+  },
+  "license": "MIT",
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "2 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^11.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "jsdom": "^23.0.0",
+    "prettier": "^3.7.3",
+    "size-limit": "^11.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.48.0",
+    "vitest": "^1.0.0"
+  }
+}
