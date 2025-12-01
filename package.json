@@ -40,7 +40,7 @@
   "author": "https://github.com/rodionbgd",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rodionbgd/ls-plus.git"
+    "url": "git+https://github.com/rodionbgd/ls-plus.git"
   },
   "license": "MIT",
   "size-limit": [
