@@ -1,11 +1,12 @@
 {
   "name": "ls-plus",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A lightweight, zero-dependency localStorage wrapper with TTL, namespaces, and SSR support",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -15,12 +16,15 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "size-limit": "size-limit",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --max-warnings=0",

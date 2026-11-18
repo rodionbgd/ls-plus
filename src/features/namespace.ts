@@ -1,8 +1,5 @@
 import type { Storage, NamespacedStorage } from '../core/types';
 
-/**
- * Creates namespaced storage with prefix.
- */
 export function withNamespace(storage: Storage, prefix: string): NamespacedStorage {
   const prefixedKey = (key: string): string => `${prefix}:${key}`;
 
@@ -18,13 +15,17 @@ export function withNamespace(storage: Storage, prefix: string): NamespacedStora
     return storage.remove(prefixedKey(key));
   };
 
-  const clear = (): void => {
-    const keys = storage.keys();
+  const keys = (): string[] => {
+    const allKeys = storage.keys();
     const prefixWithColon = `${prefix}:`;
-    for (const key of keys) {
-      if (key.startsWith(prefixWithColon)) {
-        storage.remove(key);
-      }
+    return allKeys
+      .filter((key) => key.startsWith(prefixWithColon))
+      .map((key) => key.slice(prefixWithColon.length));
+  };
+
+  const clear = (): void => {
+    for (const key of keys()) {
+      storage.remove(prefixedKey(key));
     }
   };
 
@@ -32,12 +33,14 @@ export function withNamespace(storage: Storage, prefix: string): NamespacedStora
     return storage.has(prefixedKey(key));
   };
 
-  const keys = (): string[] => {
-    const allKeys = storage.keys();
-    const prefixWithColon = `${prefix}:`;
-    return allKeys
-      .filter((key) => key.startsWith(prefixWithColon))
-      .map((key) => key.slice(prefixWithColon.length));
+  const clearExpired = (): number => {
+    let cleared = 0;
+    for (const key of [...keys()]) {
+      if (!storage.has(prefixedKey(key))) {
+        cleared++;
+      }
+    }
+    return cleared;
   };
 
   const namespace = (subPrefix: string): NamespacedStorage => {
@@ -51,6 +54,7 @@ export function withNamespace(storage: Storage, prefix: string): NamespacedStora
     clear,
     has,
     keys,
+    clearExpired,
     namespace,
   };
 }

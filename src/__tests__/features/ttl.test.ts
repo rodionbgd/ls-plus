@@ -1,20 +1,17 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createStorage } from '../../core/storage';
-import { withTTL } from '../../features/ttl';
 
 describe('TTL', () => {
   let storage: ReturnType<typeof createStorage>;
-  let ttlStorage: ReturnType<typeof withTTL>;
 
   beforeEach(() => {
+    window.localStorage.clear();
     storage = createStorage();
-    storage.clear();
-    ttlStorage = withTTL(storage);
   });
 
-  it('should set and get TTL values', () => {
-    ttlStorage.setTTL('temp', 'value', 1000);
-    expect(ttlStorage.getTTL('temp')).toBe('value');
+  it('should set and get values with ttl', () => {
+    storage.set('temp', 'value', { ttl: 1000 });
+    expect(storage.get('temp')).toBe('value');
   });
 
   it('should return null for expired values', () => {
@@ -22,19 +19,19 @@ describe('TTL', () => {
     const now = Date.now();
     vi.setSystemTime(now);
 
-    ttlStorage.setTTL('temp', 'value', 100);
+    storage.set('temp', 'value', { ttl: 100 });
 
     vi.advanceTimersByTime(150);
     vi.setSystemTime(now + 150);
 
-    expect(ttlStorage.getTTL('temp')).toBeNull();
-    expect(storage.has('__ttl__temp')).toBe(false);
+    expect(storage.get('temp')).toBeNull();
+    expect(storage.has('temp')).toBe(false);
 
     vi.useRealTimers();
   });
 
-  it('should return null for non-existent TTL keys', () => {
-    expect(ttlStorage.getTTL('non-existent')).toBeNull();
+  it('should return null for non-existent keys', () => {
+    expect(storage.get('non-existent')).toBeNull();
   });
 
   it('should clear expired entries', () => {
@@ -42,25 +39,25 @@ describe('TTL', () => {
     const now = Date.now();
     vi.setSystemTime(now);
 
-    ttlStorage.setTTL('key1', 'value1', 100);
-    ttlStorage.setTTL('key2', 'value2', 150);
-    ttlStorage.setTTL('key3', 'value3', 300);
+    storage.set('key1', 'value1', { ttl: 100 });
+    storage.set('key2', 'value2', { ttl: 150 });
+    storage.set('key3', 'value3', { ttl: 300 });
 
     vi.advanceTimersByTime(200);
     vi.setSystemTime(now + 200);
 
-    const cleared = ttlStorage.clearExpired();
+    const cleared = storage.clearExpired();
     expect(cleared).toBe(2);
-    expect(ttlStorage.getTTL('key1')).toBeNull();
-    expect(ttlStorage.getTTL('key2')).toBeNull();
-    expect(ttlStorage.getTTL('key3')).toBe('value3');
+    expect(storage.get('key1')).toBeNull();
+    expect(storage.get('key2')).toBeNull();
+    expect(storage.get('key3')).toBe('value3');
 
     vi.useRealTimers();
   });
 
   it('should work with complex objects', () => {
     const obj = { name: 'test', data: [1, 2, 3] };
-    ttlStorage.setTTL('obj', obj, 1000);
-    expect(ttlStorage.getTTL('obj')).toEqual(obj);
+    storage.set('obj', obj, { ttl: 1000 });
+    expect(storage.get('obj')).toEqual(obj);
   });
 });

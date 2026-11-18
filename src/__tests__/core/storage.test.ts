@@ -5,8 +5,8 @@ describe('Storage', () => {
   let storage: ReturnType<typeof createStorage>;
 
   beforeEach(() => {
+    window.localStorage.clear();
     storage = createStorage();
-    storage.clear();
   });
 
   describe('Basic operations', () => {

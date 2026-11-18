@@ -6,8 +6,8 @@ describe('Namespace', () => {
   let storage: ReturnType<typeof createStorage>;
 
   beforeEach(() => {
+    window.localStorage.clear();
     storage = createStorage();
-    storage.clear();
   });
 
   it('should prefix keys', () => {
